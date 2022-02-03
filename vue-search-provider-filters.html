@@ -1,0 +1,57 @@
+
+        <div v-cloak class="search-filters">
+            <a id="filters-btn" v-bind:class="{ 'filters-visible' : placeFiltersVisible }" @click="togglePlaceFilters()" href="#show-filters">
+                <i class="fa fa-eye-slash"></i>
+                <i class="fa fa-eye"></i>
+                Show Filters</a>
+    
+        
+      
+               <div v-bind:class="[ placeFiltersVisible ? 'filters-wrap visible' : 'filters-wrap hidden']" >
+ <span class="filter-item">
+                <select v-bind:class="{ loading : !specialistServices}"  @change="filterChange('specialist_service','Specialist Service',$event)">
+                     <option v-if="specialistServices==null" value="0">Specialist Services Loading...</option>
+                    <option  v-cloak value="0">Select Specialist Service</option>
+                    <option v-for="item in specialistServices" v-bind:value="item.id" >
+                        {{ item.name }}
+                    </option>
+                </select>
+            </span>
+                
+             <span class="filter-item">
+                <select v-bind:class="{ loading : !serviceTypes}"  @change="filterChange('serviceType','Service Type',$event)">
+                     <option v-if="serviceTypes==null" value="0">Types Loading...</option>
+                    <option  v-cloak value="0">Select Service Type</option>
+                    <option v-for="item in serviceTypes" v-bind:value="item.id" >
+                        {{ item.name }}
+                    </option>
+                </select>
+            </span>
+                
+                  <span class="filter-item">
+                <select v-bind:class="{ loading : !staffs}" @change="filterChange('ag_staff','Manager',$event)">
+                     <option v-if="staffs==null" value="0">Staffs Loading...</option>
+                    <option  v-cloak value="0">Select Staff</option>
+                    <option v-for="item in staffs" v-bind:value="item.id" >
+                        {{ item.name }}
+                    </option>
+                </select>
+            </span>
+                
+                <span class="filter-item">
+                <select v-bind:class="{ loading : !brands}"  @change="filterChange('ag_brand','Brand',$event)">
+                     <option v-if="brands==null" value="0">Brands Loading...</option>
+                    <option  v-cloak value="0">Select Brand</option>
+                    <option v-for="item in brands" v-bind:value="item.id" >
+                        {{ item.name }}
+                    </option>
+                </select>
+            </span>
+
+            
+            </div>
+           
+            
+        </div>
+
+  

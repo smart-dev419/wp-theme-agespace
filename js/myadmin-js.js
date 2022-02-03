@@ -1,0 +1,1 @@
+!function(n){n(document).ready(function(){function a(n,a){var e=n.find("span");n.find("a").text(a).append(e)}var e=n(".bbp_keymaster"),r=n(".bbp_participant");a(e,"Forum Admin "),a(r,"Forum Member ")})}(jQuery);

@@ -1,0 +1,99 @@
+<div  id="preloader-filters" v-if = "filtersAreAvailable == false">
+   
+    <div class="preloader-list-item  filters ph-item animate-inside">
+
+        <div class="p-button"></div>
+        <div class="p-button"></div>
+        <div class="p-button"></div>
+    </div>
+
+</div>
+<div id="above-results-bar">
+   
+     <div class="preloader-list-item  filters ph-item animate-inside" v-if = "responseAvailable != true">
+        <div class="p-title"></div>
+    </div>
+    <div id="search-results-top-bar" v-cloak v-if = "responseAvailable == true">
+
+
+        <div id="search-result-title">
+            <span class="count">{{result.length}}</span> {{serviceTypeName}} Providers in <span class="keyword">{{keyword == 'place' ? placeName : keyword }}</span><br>
+            <div v-if='cityName'>
+                Showing destinations to: <span class="keyword">{{cityName}}</span> Location Type:<span class="keyword">{{cityType}}</span>
+            </div>
+
+
+        </div>
+
+
+
+
+    </div>
+
+
+    <div v-cloak v-if = "filtersAreAvailable==true" id="search-filters-bar" class="search-filters">
+        <div class="filters-wrap">
+            
+            
+              <span class="filter-item ">
+              
+                <div id="specialist_service_select" class="custom-select custom-select-initialized"  >
+                    <div v-if="filter_specialistServices==null" v-bind:data-value="0">Specialist Services Loading...</div>
+                    <div  v-cloak v-bind:data-value="0" class="select-selected">Specialist Service</div>
+                    <div class="select-items select-hide">
+                    <div v-for="item in filter_specialistServices" v-bind:data-value="item.term_id" >
+                        {{ item.name }}
+                    </div>
+                        </div>
+                </div>
+               
+            </span>
+                  
+               
+                      
+<!--                      <div class="select-selected select-arrow-active">Specialist Service</div>
+                      <div class="select-items"><div>-->
+                        
+<!--
+
+
+             <span class="filter-item custom-select2">
+             
+                <select id="rate_select" v-bind:class="{ loading : !filter_rate}"  @change="filterApply('rate','Service Rate',$event)">
+                    <option v-if="filter_rate==null" value="0">Rates Loading...</option>
+                    <option  v-cloak value="0">Rating</option>
+                    <option v-for="item in filter_rate" v-bind:value="item.name" >
+                        {{ item.name }}
+                    </option>
+                </select>
+                    
+            </span>
+
+            <span class="filter-item custom-select2">
+              
+                <select id="ag_cities_select" v-bind:class="{ loading : !filter_cities}"  @change="filterApply('ag_cities','Service Town',$event)">
+                    <option v-if="filter_cities==null" value="0">Towns Loading...</option>
+                    {{sortTowns()}}
+                    <option  v-cloak value="0">Town</option>
+                    <option v-for="item in filter_cities" v-bind:value="item.term_id" >
+                        {{ item.name }}
+                    </option>
+                </select>
+                    
+            </span>-->
+
+
+            
+        
+       </div>
+   
+    </div>
+
+
+</div>
+
+<!--<div class="scrollbar"">
+      <div class="force-overflow"></div>
+</div>-->
+
+   

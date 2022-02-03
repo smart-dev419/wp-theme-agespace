@@ -1,0 +1,87 @@
+
+
+    <div  id="result-area" class="paid-listings style-column">
+
+        <div id="dataprealodercolumn" v-cloak v-if = "responseAvailablePaid == false">
+        <div class="preloader-list-item-column"></div>
+        <div class="preloader-list-item-column"></div>
+        <div class="preloader-list-item-column"></div>
+        <div class="preloader-list-item-column"></div>
+
+    </div>
+
+     <div v-cloak v-if = "responseAvailablePaid == true">
+ 
+          
+        
+          
+         
+           <ul class="results">
+                <li v-for="(item, index) in resultPaid"  >
+                      <div class="ag-ribbon ag-ribbon-top-right"><span>Featured</span></div>
+                    <div class="result-wrap">
+                        <div class="result-image">
+
+                            <img v-if="!item.thumbnail" src="https://www.agespace.org/wp-content/themes/Agespace-Elementor/images/placeholder.jpg"  :alt="item.title" :title="cleaner(item.title)"/>  
+<img v-if="item.thumbnail" :src="item.thumbnail.url"  :alt="item.title" :title="cleaner(item.title)"/>  
+                        </div>                
+                        <div class="result-body">
+                          
+<!--                            <div class="top-area">
+                                <span  :class=" updateRate=getRate(item.locationId,item.latest_overall_rating) + ' rate-badge' || 'no-rating rate-badge' ">
+
+                                {{updateRate || 'No rating'}}
+
+                            </span>
+                           
+                            
+                             <span class="badge gray">
+                                    {{item.service_category[0].name}}
+                                    
+                                </span>
+</div>-->
+                            <h3 class="result-title"><a target="_blank" :href="item.link">{{ cleaner(item.title) }}</a></h3>
+                           
+                            <div class="address">
+                                <i class="fa fa-map-marker-alt"></i> {{item.city[0].name ? item.city[0].name  : item.local_authority[0].name }}, {{item.postal_code}} 
+<!--                                <span class="seperator">|</span>  -->
+<br>
+                                <i class="fa fa-phone"></i> {{formatPhone(item.location_phone_number)}} 
+                                
+                                <span v-if="item.searched_distance_zero>0 && visibleDistance">
+                                <span class="seperator">|</span> <i class="fa fa-map-location-arrow"></i>  {{item.distance_miles}} Miles Away
+                                </span>
+
+                            </div>
+
+                            <div class="result-footer">
+<!--                                 <span v-if="item.cqc_location" class="badge salmon">
+                                    {{item.cqc_location[0].name}}
+                                    
+                                </span>-->
+
+                                   <span  :class=" whiteSpace(item.latest_overall_rating) + ' rate-badge' || 'no-rating rate-badge' ">
+                                {{item.latest_overall_rating || 'No rating'}}
+
+                            </span>
+                              <a  class="moreinfo-button purple"  v-bind:href="item.link">More Details</a>
+<!--                                <span class="badge green">
+                                    {{item.type_sector[0].name}}
+                                    
+                                </span>-->
+                                
+<!--                                <div class="date">Registered Date: <b>{{item.hsca_start_date}}</b></div>-->
+                            </div>
+
+                        </div>    
+                    </div>
+
+
+
+                </li>
+
+            </ul>
+
+          
+        </div>
+    </div>

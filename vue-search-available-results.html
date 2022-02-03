@@ -1,0 +1,18 @@
+<div id="search-results-top-bar" v-cloak v-if = "responseAvailable == true">
+      
+    
+                    <div id="search-result-title">
+                        <span class="count">{{result.length}}</span> {{serviceTypeName}} Providers in <span class="keyword">{{keyword == 'place' ? placeName : keyword }}</span><br>
+                       Within: <span class="keyword">{{searchRadius}} Miles</span> 
+                        <div v-if='cityName'>
+                            Showing destinations to: <span class="keyword">{{cityName}}</span> Location Type:<span class="keyword">{{cityType}}</span><br>
+                            
+                        </div>
+        
+        
+                    </div>
+        
+        
+        
+        
+                </div>

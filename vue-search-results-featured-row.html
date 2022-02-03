@@ -1,0 +1,183 @@
+<!-- <div v-cloak id="search-result-active-filters" v-if="searchFilters.length>0">
+     <div id="active-filters">
+         <span class="highlight">Active Filters:</span> <small>There are <span class="count">{{result.length}}</span> {{serviceTypeName}} providers available based on your requirements</small> 
+     </div>
+            <ul>
+
+                <li v-for="filter in searchFilters">
+                    <a class="remove-filter" @click="removeFilter(filter.slug)" href="#remove-filter"><i class="fa fa-times"></i></a>
+                    <span class="filter-label">{{filter.label}}:</span> 
+                    <span class="filter-value">{{filter.optionText}}</span>
+                </li>
+
+            </ul>
+        </div>-->
+ 
+<div  id="result-area-paid" class="paid-listings style-row">
+<!--    <div v-if = "responseAvailablePaid == false" class="preloader-list-item featured ph-item">
+        <div class="p-image"></div>
+        <div class="wrap">
+            <div class="space-between">
+                <div class="p-title"></div>
+
+                <div class="p-badge"></div>
+            </div>
+
+
+            <div class="space-between">
+                <div>
+                    <div class="p-list-item"></div>
+                    <div class="p-list-item"></div>
+                    <div class="p-list-item"></div>
+                </div>
+
+
+                <div class="p-button"></div>
+            </div>
+
+        </div>
+
+    </div>-->
+    <!--       <div  v-cloak v-if = "responseAvailablePaid == false">
+               <preloader-item-featured></preloader-item-featured>
+               
+    
+        </div>-->
+
+    <div v-cloak v-if = "responseAvailablePaid == true">
+
+
+
+
+
+        <ul class="results ">
+            <li v-for="(item, index) in resultPaid"  >
+<!--                <div class="ag-ribbon ag-ribbon-top-left"><span>Featured</span></div>-->
+                <div class="result-wrap">
+                    <div class="result-image">
+
+                        <img v-if="!item.thumbnail" src="https://www.agespace.org/wp-content/themes/Agespace-Elementor/images/placeholder.jpg"  :alt="item.title" :title="cleaner(item.title)"/>  
+                        <img v-if="item.thumbnail" :src="item.thumbnail.url"  :alt="item.title" :title="cleaner(item.title)"/>  
+                        
+                      
+                    </div>
+
+
+
+
+
+                    <div class="result-body">
+                        <div class="result-header ">
+                            <div class="row">
+                            <!--                                 <span v-if="item.cqc_location" class="badge salmon">
+                                                                {{item.cqc_location[0].name}}
+                                                                
+                                                            </span>-->
+                            <div class="col-xs-8">
+                            <h3 class="result-title"><a target="_blank" :href="item.link">{{ cleaner(item.title) }}</a></h3>
+                           
+</div>
+                              <div class="col-xs-4">
+                                       <a  class="moreinfo-button purple"  v-bind:href="item.link">More Details</a>
+                              <span  :class=" whiteSpace(item.latest_overall_rating) + ' rate-badge' || 'no-rating rate-badge' ">
+                                {{item.latest_overall_rating || 'No rating'}}
+
+                            </span>
+                            <!--                                <span class="badge green">
+                                                                {{item.type_sector[0].name}}
+                                                                
+                                                            </span>-->
+
+                            <!--                                <div class="date">Registered Date: <b>{{item.hsca_start_date}}</b></div>-->
+                        </div></div>  </div>
+
+
+<div class="row">
+                                <div class="col-xs-9">
+ <div class="result-desc">
+                                
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ornare aliquet diam, nec consequat dui lobortis ut. Proin at mauris blandit lacus convallis vulputate. Nam dapibus vitae sem malesuada venenatis.
+                                
+                                
+                            </div>
+                                </div>
+    <div class="col-xs-3 align-center">
+          <a class="featured-row-logo" href="https://www.agespace.org/" target="_blank">
+                             <img src="https://agespaceimages.s3.eu-west-2.amazonaws.com/wp-content/uploads/2020/12/17140009/AgeSpace-Logo.svg" alt="Agespace Logo" />
+                        </a>
+    </div>
+</div>           
+                        <div class="result-footer">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                  <div class="address inline-list">
+                                <ul>
+                                    <li v-if="item.postal_code && item.city[0] && item.local_authority[0]"><i class="fa fa-map-marker-alt"></i> {{item.city[0].name ? item.city[0].name  : item.local_authority[0].name }}, {{item.postal_code}} </li>
+                                    <li v-else-if="item.postal_code"><i class="fa fa-map-marker-alt"></i> {{item.postal_code}} </li>
+                                    <li v-if="item.location_phone_number"><i  class="fa fa-phone"></i> {{formatPhone(item.location_phone_number)}}</li>
+                                    <li v-if="item.location_website"><i  class="fa fa-globe"></i> <a  rel="nofollow" target="_blank" :href="'http://'+item.location_website">Website</a></li>
+                                </ul>
+                                
+
+                                <!--                                <span class="seperator">|</span>  -->
+
+
+
+                                <span v-if="item.searched_distance_zero>0 && visibleDistance">
+                                    <span class="seperator">|</span> <i class="fa fa-map-location-arrow"></i>  {{item.distance_miles}} Miles Away
+                                </span>
+
+                            </div>
+                            </div>
+                              
+                            </div>
+                          
+
+                            <div class="row">
+                                <div class="col-xs-12">
+                            <div class="address specialism  inline-list">
+                                
+                                 <ul v-if="item.specialist_service">
+                                     
+                                    
+                                     <li><i class="fa fa-check"></i> Live-in Care</li>
+                                     <li><i class="fa fa-check"></i> Personal care</li>
+                                     <li><i class="fa fa-check"></i> Dementia</li>
+                                     <li><i class="fa fa-check"></i> Mental Health</li>
+                                     <li><i class="fa fa-check"></i> Physical Disability</li>
+<!--                                        <li v-for="(speciality, index) in item.specialist_service"  v-if="speciality.name==='Personal care' || speciality.name==='Personal Care' ||  speciality.name==='Dementia' || speciality.name==='Mental Health' || speciality.name==='Physical Disability'" >
+                                            
+                                                 <template >
+                                            <i class="fa fa-check"></i> {{speciality.name}}
+                                                 </template>
+                                        </li>-->
+<!--                                         <li v-for="(speciality, index) in item.service_type" >
+                                            <i class="fa fa-check"></i> {{speciality.name}}
+                                        </li>-->
+                                        
+                                    </ul>
+                                
+                            </div>
+                                    </div>
+ </div>
+                         
+
+                        </div>
+
+                    </div>    
+                </div>
+
+
+
+            </li>
+
+
+
+
+
+
+        </ul>
+
+
+    </div>
+</div>

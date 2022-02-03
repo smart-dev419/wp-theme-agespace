@@ -1,0 +1,234 @@
+<div  id="result-area-free" class="free-listings">
+<div   v-if = "responseAvailable == false">
+    
+    <div class="preloader-list-item ph-item">
+        <div class="p-title"></div>
+        <div class="p-badge"></div>
+        <div class="p-button"></div>
+    </div>
+    
+     <div class="preloader-list-item ph-item">
+        <div class="p-title"></div>
+        <div class="p-badge"></div>
+        <div class="p-button"></div>
+    </div>
+     
+     <div class="preloader-list-item ph-item">
+        <div class="p-title"></div>
+        <div class="p-badge"></div>
+        <div class="p-button"></div>
+    </div>
+    
+     <div class="preloader-list-item ph-item">
+        <div class="p-title"></div>
+        <div class="p-badge"></div>
+        <div class="p-button"></div>
+    </div>
+    
+     <div class="preloader-list-item ph-item">
+        <div class="p-title"></div>
+        <div class="p-badge"></div>
+        <div class="p-button"></div>
+    </div>
+    
+     <div class="preloader-list-item ph-item">
+        <div class="p-title"></div>
+        <div class="p-badge"></div>
+        <div class="p-button"></div>
+    </div>
+    
+     <div class="preloader-list-item ph-item">
+        <div class="p-title"></div>
+        <div class="p-badge"></div>
+        <div class="p-button"></div>
+    </div>
+    
+     <div class="preloader-list-item ph-item">
+        <div class="p-title"></div>
+        <div class="p-badge"></div>
+        <div class="p-button"></div>
+    </div>
+    
+     <div class="preloader-list-item ph-item">
+        <div class="p-title"></div>
+        <div class="p-badge"></div>
+        <div class="p-button"></div>
+    </div>
+    
+     <div class="preloader-list-item ph-item">
+        <div class="p-title"></div>
+        <div class="p-badge"></div>
+        <div class="p-button"></div>
+    </div>
+    
+    
+</div>
+
+<!--    <div   v-if = "responseAvailable == false">
+        <preloader-item-free></preloader-item-free>
+        <preloader-item-free></preloader-item-free>
+        <preloader-item-free></preloader-item-free>
+        <preloader-item-free></preloader-item-free>
+        <preloader-item-free></preloader-item-free>
+        <preloader-item-free></preloader-item-free>
+        <preloader-item-free></preloader-item-free>
+        <preloader-item-free></preloader-item-free>
+        <preloader-item-free></preloader-item-free>
+        <preloader-item-free></preloader-item-free>
+
+
+    </div>-->
+
+    <div v-cloak v-if = "responseAvailable == true">
+
+        <div  v-cloak v-if="noResultFound" class="noresult-msg">
+         <span style="font-family: &quot;Inter&quot;, &quot;sans-serif&quot;;font-size: 18px;">Sorry, no providers match your search criteria. Please try <a href="https://www.agespace.org/services/home-care">searching again.</a><br>
+         Tip: Using your postcode and increasing the radius may display the best results for you.</span>
+        </div>
+
+
+
+        <ul class="results">
+            <li v-for="(item, index) in result" v-bind:class="result.id" >
+                <div class="free-result-body ">
+                    <div class="result-collapse-wrap">
+                        <div class="result-row">
+                            <div class="title-wrap">
+                                <h3 class="result-title"><a data-toggle="collapse" role="button"  aria-expanded="false" v-bind:aria-controls="'#result'+item.id" v-bind:href="'#result'+item.id">{{ cleaner(item.title) }}</a></h3>
+                            </div>
+                            <div class="rate-wrap">
+                                <span  :class=" whiteSpace(item.latest_overall_rating) + ' rate-badge' || 'no-rating rate-badge' ">
+                                    {{item.latest_overall_rating || 'No rating'}}
+
+                                </span> 
+                            </div>
+                            <div class="button-wrap">
+                                <a data-toggle="collapse" role="button" class="moreinfo-button" aria-expanded="false" v-bind:aria-controls="'#result'+item.id" v-bind:href="'#result'+item.id">More info <i class="fa fa-chevron-down"></i></a>
+
+                            </div>
+
+
+
+
+
+
+                        </div>    
+                    </div>
+                    <div v-bind:id="'result'+item.id" class="collapse">
+                        <div class="result-wrap">
+
+                            <!--                        <div class="result-image">
+                            
+                                                        <img v-if="!item.thumbnail" src="https://www.agespace.org/wp-content/themes/Agespace-Elementor/images/placeholder.jpg"  :alt="item.title" :title="cleaner(item.title)"/>  
+                            
+                                                    </div>                -->
+                            <div class="result-body">
+                                <!--                            <div class="top-area ">
+                                                                <span  :class=" updateRate=getRate(item.locationId,item.latest_overall_rating) + ' rate-badge' || 'no-rating rate-badge' ">
+                                
+                                                                {{updateRate || 'No rating'}}
+                                
+                                                            </span>
+                                                          
+                                                              <span class="rate-badge yellow">
+                                                                    {{item.service_category[0].name}}
+                                                                    
+                                                                </span>
+                                                           
+                                </div>-->
+                                <!--                            <h3 class="result-title"><a target="_blank" :href="item.link">{{ cleaner(item.title) }}</a></h3>-->
+
+                               
+                                         <div class="row">
+                                <div class="col-xs-12">
+                                   <div class="address inline-list">
+
+                                  
+
+                                     <ul>
+                                        <li v-if="item.postal_code"><i class="fa fa-map-marker-alt"></i> {{item.city[0].name ? item.city[0].name  : item.local_authority[0].name }}, {{item.postal_code}} </li>
+                                        <li v-if="item.location_phone_number"><i  class="fa fa-phone"></i> {{formatPhone(item.location_phone_number)}}</li>
+<!-- <li v-if="item.location_website"><i  class="fa fa-globe"></i> <a  rel="nofollow" target="_blank" :href="'http://'+item.location_website">{{item.location_website}}</a></li>
+
+                                  -->
+                                    </ul>
+
+
+
+                                    <span v-if="item.searched_distance_zero>0 && true">
+                                        <span class="seperator">|</span> <i class="fa fa-map-location-arrow"></i>  <b>{{item.distance_miles}}</b> Miles Away
+                                    </span>
+
+                                </div>
+                            </div>
+                                         </div>
+                                 <div class="row">
+                                <div class="col-xs-9"> 
+                                  <div class="address specialism  inline-list">
+
+                                  
+
+                                    
+                                    <ul v-if="item.specialist_service_and_type">
+                                
+                                        <li>   <span class="result-title">Specialisms:</span></li>
+                                     
+                                          <li v-for="(speciality, index) in item.specialist_service_and_type" >
+                                           
+                                                 <template v-if="speciality.name==='Personal care' ||speciality.name==='Personal Care' || speciality.name==='Dementia' || speciality.name==='Mental Health' || speciality.name==='Physical Disability'">
+                                            <i class="fa fa-check"></i> {{speciality.name}}
+                                                 </template>
+                                        </li>
+                                    </ul>
+
+
+                                </div>
+                            </div>
+                                             <div class="col-xs-3">
+                                                   <div class="button-wrap">
+                                    <a target="_blank" :href="item.upgradeListingURL" role="button" class="moreinfo-button blue-darker">Upgrade Listing</a>
+
+                                </div>
+                                             </div>
+                              
+                            </div>
+                                 
+
+                              
+
+
+                                <!--                            <div class="result-footer">
+                                                                 <span v-if="item.cqc_location" class="rate-badge salmon">
+                                                                    {{item.cqc_location[0].name}}
+                                                                    
+                                                                </span>
+                                
+                                
+                                                                    <span  :class=" whiteSpace(item.latest_overall_rating) + ' rate-badge' || 'no-rating rate-badge' ">
+                                                                {{item.latest_overall_rating || 'No rating'}}
+                                
+                                                            </span>
+                                                            
+                                                                <span class="rate-badge green">
+                                                                    {{item.type_sector[0].name}}
+                                                                    
+                                                                </span>
+                                                                
+                                                                <div class="date">Registered Date: <b>{{item.hsca_start_date}}</b></div>
+                                                            </div>-->
+
+                            </div>    
+
+                        </div>
+                    </div>
+
+
+
+            </li>
+
+        </ul>
+
+         
+
+    </div>
+</div>

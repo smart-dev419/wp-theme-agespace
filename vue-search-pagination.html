@@ -1,0 +1,23 @@
+<div id="results-footer" v-cloak v-if="responseAvailable" >
+            
+    <button id="infiniteload" v-if="!paginationFinished" class="moreinfo-button" @click="infinitePagination()">Load More</button>
+<!--             <div id="paginations" >
+                 <div class="pagination-wrap">
+  <select @change="changePage($event)">
+ 
+                    
+                    <option v-for="index in parseInt(mytotalPages)"  v-bind:class="[ pageOfItems==index ? 'current'  : '' ]" :value="index" >{{ index }}</option>
+                
+                </select>
+                     </div>
+                    <ul>
+
+                        <li v-for="index in parseInt(mytotalPages)"  v-bind:class="[ pageOfItems==index ? 'current'  : '' ]" >
+                            <button   @click="changePage(index)" > {{ index }}</button>
+
+                        </li>
+
+                    </ul>
+                </div>-->
+
+         </div>

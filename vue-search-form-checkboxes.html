@@ -1,0 +1,9 @@
+<ul  class="search-form-checkboxes">
+     <li v-if="filter_specialistServices==null"  value="0">Services are Loading...</li>
+                
+                    <li :id="item.term_id" v-cloak v-for="item in filter_specialistServices" @click="changeCheckboxFilter(item)" v-bind:data-value="item.term_id" >
+                        <span class="checkbox"></span>
+                        <div class="txt"> {{ item.name }}</div>
+                    </li>
+  
+</ul>

@@ -1,0 +1,632 @@
+<?php
+include('shortcodes.php');
+include('functions-extend.php');
+include('step-forms.php');
+include('acf-blocks.php');
+
+
+add_filter( 'elementor/fonts/groups', function( $font_groups ) {
+	$font_groups['theme_fonts'] = __( 'Theme Fonts', 'agespace' );
+	return $font_groups;
+} );
+/**
+ * Add Group Fonts to the fonts control
+ */
+add_filter( 'elementor/fonts/additional_fonts', function( $additional_fonts ) {
+	// Key/value
+	//Font name/font group
+	$additional_fonts['Inter'] = 'theme_fonts';
+	return $additional_fonts;
+} );
+// Now if they are included by your theme, you are done.
+// if not you can hook in to the elementor/fonts/print_font_links/{$font_type} action hook to enqueque your theme fonts, ex:
+//add_action( 'elementor/fonts/print_font_links/theme_fonts', function( $font_name ) {
+//   
+//  wp_enqueue_style( 'my-theme-google-fonts', '//fonts.googleapis.com/css?family=Inter:300|400|500|600|700|800' );
+//} );
+
+//This code removes noreferrer from your new or updated posts
+ function my_targeted_link_rel($rel_values) {
+ return 'noopener';
+ }
+ add_filter('wp_targeted_link_rel', 'my_targeted_link_rel',999);
+ function add_elementor_widget_categories( $elements_manager ) {
+
+	$elements_manager->add_category(
+		'agespace',
+		[
+			'title' => __( 'Agespace', 'agespace' ),
+			'icon' => 'fa fa-plug',
+		]
+	);
+	
+
+}
+add_action( 'elementor/elements/categories_registered', 'add_elementor_widget_categories' );
+
+  function my_formatter($content) {
+ $replace = array(" noreferrer" => "" );
+ $new_content = strtr($content, $replace);
+ return $new_content;
+ }
+ add_filter('the_content', 'my_formatter', 999);
+
+add_shortcode('download-manager','downloadManager');
+function downloadManager(){
+    if(isset($_GET['download'])){
+        if($_GET['download']==="advertise"){
+           $cnt='<form id="download-advertise-form" action="https://www.agespace.org/wp-content/themes/Agespace-Elementor/download.php" method="post"></form>';
+
+
+return $cnt; 
+        }
+    }
+}
+
+
+$combinePageCssList=[];
+ $combinePageCssListHEAD=[];
+
+function isAmin(){
+    //var_dump(wp_get_current_user()->data->ID);
+    if(wp_get_current_user()->data->ID==="2380"){
+        return true;
+    }
+      return false;
+}
+
+
+
+function filter_w3tc_minify_css_do_tag_minification( $do_tag_minification, $style_tag, $file ) {
+
+if($do_tag_minification && isset($file) && strrpos ( $file , "elementor/css/post" ) >= 1){
+return false;
+}
+
+return $do_tag_minification;
+};
+
+// add the filter
+//add_filter( 'w3tc_minify_css_do_tag_minification', 'filter_w3tc_minify_css_do_tag_minification', 10, 3 );
+
+
+add_theme_support( 'post-thumbnails' );
+add_filter( 'gform_allowable_tags', 'allow_basic_tags', 10, 3 );
+function allow_basic_tags( $allowable_tags ) {
+    return '<p><a><strong><em><br></br><br />';
+}
+add_filter( 'gform_allowable_tags', '__return_true' );
+
+function externalFile($file){
+    return get_stylesheet_directory_uri().'/externaljs.php?file='.$file;
+}
+add_theme_support( 'title-tag' );
+function currentYear() {
+    return date('Y');
+}
+
+add_shortcode('year', 'currentYear');
+
+function currentDate() {
+    return date('l F dS Y');
+}
+
+add_shortcode('currentdate', 'currentDate');
+
+function header_JS() {
+  global $paged;
+  if ($paged) {
+    echo '<meta name="robots" content="noindex,nofollow" />', "\n";
+  } 
+// 
+//   echo "<script type='text/javascript'>
+//  window.__be = window.__be || {};
+//  window.__be.id = '5e42c0b2cbb1860007bf6e50';
+// 
+//</script>";
+//   
+// 
+//  $code='
+//<script>
+//  window.googletag = window.googletag || {cmd: []};
+//  googletag.cmd.push(function() {
+//    googletag.defineSlot("/22025122300/sidebarad1", [300, 250], "div-gpt-ad-1590138460074-0").addService(googletag.pubads());
+//    googletag.defineSlot("/22025122300/sidebarad2", [300, 250], "div-gpt-ad-1590658868888-0").addService(googletag.pubads());
+//googletag.defineSlot("/22025122300/sidebarad3", [300, 250], "div-gpt-ad-1590658906840-0").addService(googletag.pubads());
+// 
+//  googletag.defineSlot("/22025122300/topbanner", [[728, 90]], "div-gpt-ad-1590747775307-0").addService(googletag.pubads());
+//      googletag.defineSlot("/22025122300/topbanner", [[320, 50]], "div-gpt-ad-1590747775307-0-mobile").addService(googletag.pubads());
+// googletag.defineSlot("/22025122300/bottom-banner", [728, 90], "div-gpt-ad-1590674447513-0").addService(googletag.pubads());
+//    
+//    googletag.pubads().enableSingleRequest();
+//    googletag.enableServices();
+//  });
+//</script>';
+//   
+//echo $code;
+  
+}  
+ 
+add_action('wp_head', 'header_JS');
+
+function footer_extra_js() {
+ 
+ // echo ' <script async defer crossorigin="anonymous" src="'.externalFile('https://cdn.chatbot.com/widget/plugin.js').'"></script>', "\n";
+  echo ' <script data-ad-client="ca-pub-8436806876459334" async src="'.externalFile('https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js').'"></script>', "\n";
+  
+//   
+//   echo ' <script async defer crossorigin="anonymous" src="'.externalFile('https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v6.0&appId=194942155100100&autoLogAppEvents=1').'"></script>', "\n";
+//
+//  $code='<script  defer async src="'.externalFile('https://securepubads.g.doubleclick.net/tag/js/gpt.js').'"></script>
+//';
+//   
+//echo $code;
+  
+} 
+  
+
+
+
+
+add_filter('document_title_parts', function( $title_parts_array ) {
+  // var_dump('---------------->'.get_the_ID());
+  if (get_the_ID() == 2055) {
+    $title_parts_array['title'] = 'Custom Page Title';
+  }
+  return $title_parts_array;
+});
+
+// updated use
+add_action('elementor/query/maincatloop', 'maincatloop', 10, 2); // sets the ID of the query
+
+
+add_action('elementor/query/localslider', function( $query ) {
+
+
+ 
+  $taxquery = array(
+      array(
+          'taxonomy' => 'category',
+          'field' => 'id',
+          'terms' => get_field('slider_cats'),
+          'operator' => 'IN'
+      )
+  );
+
+  $query->set('tax_query', $taxquery);
+});
+
+add_shortcode('gettitle','gettitle');
+
+function gettitle(){
+  if(get_field('custom_title')){
+    return  get_field('custom_title');
+  }else{
+  return get_the_title();
+  }
+}
+
+//add_filter( 'gform_pre_submission_filter_10', 'downloadGuide' );
+
+function downloadGuide(){
+
+  $cnt='<form id="download-guide-form" action="https://www.agespace.org/wp-content/themes/Agespace-Elementor/download.php" method="post"></form>';
+  $cnt="";
+  ?> 
+      <script>
+        //  jQuery("#download-guide-form").submit();</script>
+      <?php
+echo $cnt;
+}
+
+
+add_shortcode('download-guide','downloadGuide');
+
+
+add_action('elementor/query/catquery', function( $query ) {
+
+//$terms=get_the_field('catlist',get_the_ID());
+//var_dump(get_query_var('customcat'));
+  $taxquery = array(
+      array(
+          'taxonomy' => 'pagecat',
+          'field' => 'id',
+          //   'terms' => get_query_var('customcat'),
+          'terms' => get_query_var('customcat'),
+          'operator' => 'IN'
+      )
+  );
+
+  $query->set('tax_query', $taxquery);
+});
+
+
+add_action('admin_init', function() {
+  $custom_sizes['image-600'] = '600 Width';
+  add_filter(
+          'image_size_names_choose', function( $sizes ) use ( $custom_sizes ) {
+    return array_merge($sizes, $custom_sizes);
+  }
+  );
+});
+
+add_action('admin_init', function() {
+  $custom_sizes['thumb-into'] = '300x300';
+  add_filter(
+          'image_size_names_choose', function( $sizes ) use ( $custom_sizes ) {
+    return array_merge($sizes, $custom_sizes);
+  }
+  );
+});
+
+add_image_size('image-600', 600, 99999, true);
+add_image_size('related-posts', 375, 170, true);
+add_image_size('thumb-into', 300, 300, true);
+add_image_size('home-posts', 700, 350, true);
+add_image_size('big-image', 2000, 2000);
+
+
+//add_action( 'wp_enqueue_scripts', 'merge_all_scripts', 9999 );
+remove_action('wp_head', 'print_emoji_detection_script', 7);
+remove_action('wp_print_styles', 'print_emoji_styles');
+
+remove_action('admin_print_scripts', 'print_emoji_detection_script');
+remove_action('admin_print_styles', 'print_emoji_styles');
+add_filter('body_class', 'add_category_to_single');
+
+function add_category_to_single($classes) {
+  if (is_single()) {
+    global $post;
+    foreach ((get_the_category($post->ID)) as $category) {
+      // add category slug to the $classes array
+      $classes[] = $category->category_nicename;
+    }
+  }
+  // return the $classes array
+  return $classes;
+}
+
+function my_login_logo() {
+  ?>
+  <style type="text/css">
+    #login h1 a, .login h1 a {
+      background-image: url(<?php echo get_home_url(); ?>/wp-content/uploads/2018/07/Agespace-Logo_June18_rightalign_RGB-V2-01.png);
+      height:117px;
+      width:230px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      padding-bottom: 0px;
+    }
+  </style>
+  <?php
+}
+
+add_action('login_enqueue_scripts', 'my_login_logo');
+
+add_action('elementor/widget/render_content', function( $content, $widget ) {
+  if ('button' === $widget->get_name()) {
+    $settings = $widget->get_settings();
+
+    if (strpos($settings['_css_classes'], 'loginlogout') !== false) {
+
+
+      if (is_user_logged_in()) {
+        $current_user = wp_get_current_user();
+
+
+        $avatar = get_avatar($current_user->user_email, 24);
+        $content = '<a href="' . wp_logout_url() . '" class="logout-link elementor-button-link elementor-button elementor-size-sm" role="button">
+						<span class="elementor-button-content-wrapper">
+						<span class="elementor-button-icon elementor-align-icon-left">
+				<span class="circle-avatar">' . $avatar . '</span>
+			</span>
+						<span class="elementor-button-text">Logout</span>
+		</span>
+					</a>';
+      } else {
+        //      $content= '<a href="'.site_url('login').'"><i class="fa fa-user"></i>Login</a>';
+      }
+    }
+  }
+
+  return $content;
+}, 10, 2);
+
+
+
+
+
+
+
+
+add_filter('gform_save_field_value', 'replace_awkward_merge_tags', 10, 4);
+
+function replace_awkward_merge_tags($value, $entry, $field, $form) {
+  $value = GFCommon::replace_variables($value, $form, $entry);
+  return $value;
+}
+
+// Add Shortcode
+// Buddypress favorites
+add_action('register_post', 'binda_register_fail_redirect', 99, 3);
+
+function binda_register_fail_redirect($sanitized_user_login, $user_email, $errors) {
+  //this line is copied from register_new_user function of wp-login.php
+  $errors = apply_filters('registration_errors', $errors, $sanitized_user_login, $user_email);
+  //this if check is copied from register_new_user function of wp-login.php
+  if ($errors->get_error_code()) {
+    //setup your custom URL for redirection
+    $redirect_url = get_bloginfo('url') . '/join-us';
+    //add error codes to custom redirection URL one by one
+    foreach ($errors->errors as $e => $m) {
+      $redirect_url = add_query_arg($e, '1', $redirect_url);
+    }
+    //add finally, redirect to your custom page with all errors in attributes
+    wp_redirect($redirect_url);
+    exit;
+  }
+}
+
+add_action('wp_login_failed', 'custom_login_failed');
+
+function custom_login_failed($username) {
+  $referrer = wp_get_referer();
+  wp_redirect(get_home_url() . '/login?checkemail=fail');
+//    if ( $referrer && ! strstr($referrer, 'wp-login') && ! strstr($referrer,'wp-admin') )
+//    {
+//        wp_redirect( get_home_url().'/login?msg=fail' );
+//        exit;
+//    }
+}
+
+add_filter('bbp_user_login_redirect_to', 'bbpressloginredirect');
+
+function bbpressloginredirect($url) {
+
+ return get_home_url() . '/chat';
+
+}
+
+add_filter('bbp_user_register_redirect_to', 'scl_print_bbp_redirect');
+
+function scl_print_bbp_redirect($url) {
+
+  return get_home_url() . '/login?checkemail=registered';
+}
+
+if (function_exists('acf_add_options_page')) {
+
+  acf_add_options_page(array(
+      'page_title' => 'Theme Settings (Extended)',
+      'menu_title' => 'Theme Settings (Extended)',
+      'menu_slug' => 'theme-general-settings',
+      'capability' => 'edit_posts',
+      'redirect' => true
+  ));
+  
+   acf_add_options_page(array(
+      'page_title' => 'Members',
+      'menu_title' => 'Members',
+      'menu_slug' => 'theme-members-settings',
+      'capability' => 'edit_posts',
+      'redirect' => true,
+       'position' => '25',
+       'icon_url' => 'dashicons-admin-users',
+  ));
+   
+   
+}
+
+
+
+
+register_sidebar(
+        array(
+    'name' => 'Pages Default Sidebar',
+    'id' => 'pages-default-sidebar',
+    'description' => '',
+    'class' => '',
+    'before_widget' => '<div id="%1$s" class="widget %2$s">',
+    'after_widget' => '</div>',
+    'before_title' => '<h4 class="widget-title">',
+    'after_title' => '</h4>')
+        
+        );
+
+register_sidebar(
+        array(
+    'name' => 'Local Sidebar COMMON WIDGETS ',
+    'id' => 'local-co-default-sidebar',
+    'description' => '',
+    'class' => '',
+    'before_widget' => '<div id="%1$s" class="widget %2$s">',
+    'after_widget' => '</div>',
+    'before_title' => '<h4 class="widget-title">',
+    'after_title' => '</h4>')
+        
+        );
+
+
+function remove_some_widgets() {
+
+  // Unregister some of the TwentyTen sidebars
+  unregister_sidebar('sidebar-3');
+}
+
+add_action('widgets_init', 'remove_some_widgets', 11);
+
+$argsSidebarForum = array(
+    'name' => 'Forum Sidebar',
+    'id' => 'forum-sidebar',
+    'description' => '',
+    'class' => '',
+    'before_widget' => '<div id="%1$s" class="widget %2$s">',
+    'after_widget' => '</div>',
+    'before_title' => '<h4 class="widget-title">',
+    'after_title' => '</h4>');
+
+register_sidebar($argsSidebarForum);
+
+
+
+
+
+function summary($content, $limit = 200) {
+  // Take the existing content and return a subset of it
+  $end = '';
+  if (strlen($content) > $limit) {
+    $end = '...';
+  }
+  return strip_tags(substr($content, 0, $limit) . $end);
+}
+
+
+//  add_action('wp_footer', 'enqueueScripts');
+//  
+//function enqueueScripts() {
+//
+//  wp_register_style('elementorStyle', trailingslashit(get_stylesheet_directory_uri()) . 'css/elementor-theme.css');
+//  wp_enqueue_style('elementorStyle');
+//}
+
+if (!function_exists('ch_hide_column_elementor_controls')) {
+  add_action('elementor/element/before_section_end', 'ch_hide_column_elementor_controls', 10, 3);
+
+  function ch_hide_column_elementor_controls($section, $section_id, $args) {
+    if ($section_id == 'section_advanced') :
+
+      $section->add_control(
+              'hide_desktop_column', [
+          'label' => __('Hide On Desktop', 'elementor'),
+          'type' => Elementor\Controls_Manager::SWITCHER,
+          'default' => '',
+          'prefix_class' => 'elementor-',
+          'label_on' => __('Hide', 'elementor'),
+          'label_off' => __('Show', 'elementor'),
+          'return_value' => 'hidden-desktop',
+              ]
+      );
+
+      $section->add_control(
+              'hide_tablet_column', [
+          'label' => __('Hide On Tablet', 'elementor'),
+          'type' => Elementor\Controls_Manager::SWITCHER,
+          'default' => '',
+          'prefix_class' => 'elementor-',
+          'label_on' => __('Hide', 'elementor'),
+          'label_off' => __('Show', 'elementor'),
+          'return_value' => 'hidden-tablet',
+              ]
+      );
+
+      $section->add_control(
+              'hide_mobile_column', [
+          'label' => __('Hide On Mobile', 'elementor'),
+          'type' => Elementor\Controls_Manager::SWITCHER,
+          'default' => '',
+          'prefix_class' => 'elementor-',
+          'label_on' => __('Hide', 'elementor'),
+          'label_off' => __('Show', 'elementor'),
+          'return_value' => 'hidden-phone',
+              ]
+      );
+    endif;
+  }
+
+}
+
+function load_custom_wp_admin_style($hook) {
+
+  wp_enqueue_script('myadmin-scripts', get_stylesheet_directory_uri() . '/js/myadmin-js.js', array('jquery'));
+  wp_enqueue_style('admin-css', (get_stylesheet_directory_uri()) . '/css/admin-css.css');
+}
+
+add_action('admin_enqueue_scripts', 'load_custom_wp_admin_style');
+
+function my_scripts() {
+  wp_enqueue_script('prefixfree', get_stylesheet_directory_uri() . '/js/prefixfree.min.js', array('jquery'), false, true);
+
+ 
+  //  wp_deregister_script('jquery');
+
+
+
+  wp_enqueue_script(
+          'sidr', get_stylesheet_directory_uri() . '/js/jquery.sidr.min.js', array('jquery'), false, true
+  );
+
+
+  wp_enqueue_script('slick-js', get_stylesheet_directory_uri() . '/js/slick.min.js', array('jquery'), false, true);
+  wp_enqueue_script('bootstrap-js', get_stylesheet_directory_uri() . '/css/bootstrap/js/bootstrap.min.js', array('jquery'), false, true);
+
+        wp_enqueue_script('selectize-js', get_stylesheet_directory_uri() . '/js/selectize.min.js', array('jquery'), false, true);
+  wp_enqueue_script('custom-js', get_stylesheet_directory_uri() . '/js/custom-script.js', array('jquery'), false, true);
+  
+  
+//  wp_enqueue_script('skimresources-js',externalFile('https://s.skimresources.com/js/132802X1595414.skimlinks.js'), array('jquery'), false, true);
+// 
+//    wp_enqueue_script('skimresources-js',   get_stylesheet_directory_uri().'/js/external/skimlinks.js', array('jquery'), false, true);
+      wp_enqueue_style('selectize-css', (get_stylesheet_directory_uri()) . '/css/selectize.css');    
+            wp_enqueue_style('flag-css', (get_stylesheet_directory_uri()) . '/css/flag-icon.min.css');      
+  wp_enqueue_style('bootstrap-css', (get_stylesheet_directory_uri()) . '/css/bootstrap/css/bootstrap.min.css');
+  
+//  wp_enqueue_style('bootstrap-theme-css', (get_stylesheet_directory_uri()) . '/css/bootstrap/css/bootstrap-theme.min.css');
+  wp_enqueue_style('slick', (get_stylesheet_directory_uri()) . '/css/slick.css');
+  wp_enqueue_style('slick2', (get_stylesheet_directory_uri()) . '/css/slick-theme.css');
+  wp_enqueue_style('fontawesome4', (get_stylesheet_directory_uri()) . '/css/font-awesome/css/font-awesome.min.css');
+  wp_enqueue_style('stylesheet', (get_stylesheet_directory_uri()) . '/css/stylesheet.css');
+ // wp_enqueue_style('elementorStyle', (get_stylesheet_directory_uri()) . '/css/elementor-theme.css');
+  // wp_enqueue_style( 'my-theme-google-fonts', '//fonts.googleapis.com/css?family=Inter:300|400|500|600|700|800' );
+}
+
+add_action('wp_enqueue_scripts', 'my_scripts');
+
+
+add_action('get_footer', 'prefix_add_footer_styles');
+
+add_action('wp_footer', 'footer_extra_js');
+
+function prefix_add_footer_styles() {
+//      wp_enqueue_script('chatbot-js', get_stylesheet_directory_uri() . '/js/externals/plugin.js', array('jquery'), false, true);
+//     wp_enqueue_script('facebookSDK-js', get_stylesheet_directory_uri() . '/js/externals/sdk.js', array('jquery'), false, true);
+    // wp_enqueue_style('elementorStyle', (get_stylesheet_directory_uri()) . '/css/elementor-theme.css');
+  wp_enqueue_style('sidr-css', (get_stylesheet_directory_uri()) . '/css/jquery.sidr.dark.min.css');
+}
+
+register_nav_menus(array(
+    'newhomemenu' => __('New Home Menu', 'agespace'),
+));
+
+
+
+// allow shortcodes to run in widgets
+add_filter('widget_text', 'do_shortcode');
+// don't auto-wrap shortcode that appears on a line of it's own
+add_filter('widget_text', 'shortcode_unautop');
+
+function get_featured_image($ID, $size = 'full') {
+  $post_thumbnail_id = get_post_thumbnail_id($ID);
+  $attachment = wp_get_attachment_image_src($post_thumbnail_id, $size);
+  $title = get_the_title(get_post_thumbnail_id($ID));
+  $result = [
+      'width' => $attachment[1],
+      'height' => $attachment[2],
+      'url' => $attachment[0],
+      'title' => $title,
+      'alt' => $title,
+      'img' => get_the_post_thumbnail($ID, $size)
+  ];
+  return $result;
+}
+
+function wpseo_fix_title_buddypress($title) {
+  // Check if we are in a buddypress page 
+  if (function_exists('buddypress') && buddypress()->displayed_user->id || buddypress()->current_component) {
+    $bp_title_parts = bp_modify_document_title_parts();
+
+    // let's rebuild the title here
+    $title = $bp_title_parts['title'] . ' ' . $title;
+  }
+  return $title;
+}
+

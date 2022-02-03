@@ -1,0 +1,264 @@
+
+
+
+<div id="searchform" class="services-page">
+
+    <div id="services-search">
+        <div class="search-group">
+            <div class="input-wrap">
+                <input required v-model="searchQuery" v-on:keydown="checkEnter"  id="search-input" class="form-control" type="text" placeholder="Enter Postcode/Town/City..." aria-label="Search">
+
+            </div>
+
+            <button id="search-button" v-class="{cloak : !appLoaded}" :disabled="loading" type = "button"  @click = "fetchAPIData"><i class="fa fa-search"></i></button>
+        </div>
+        <span class="warning" v-cloak v-if="warningMessage">{{warningMessage}}</span>
+        
+        <div v-cloak class="search-filters">
+            <a id="filters-btn" v-bind:class="{ 'filters-visible' : filtersVisible }" @click="toggleFilters()" href="#show-filters">
+                <i class="fa fa-eye-slash"></i>
+                <i class="fa fa-eye"></i>
+                Show Filters</a>
+            
+            <span class="filter-wrap">
+                <label>Search Radius:</label>
+                <select v-model="searchRadius"  @change="radiusChange($event)">
+                    
+                    <option selected value="25">25 Miles</option>
+                    <option value="50">50 Miles</option>
+                    <option value="100">100 Miles</option>
+                </select>
+               
+
+            </span>
+<!--            <input v-model="citySearch" type="checkbox" id="city-checkbox" name="city-checkbox" value="city-checkbox">
+<label for="city-checkbox"> City?</label><br>-->
+        
+      
+            <div v-bind:class="[ filtersVisible ? 'filters-wrap visible' : 'filters-wrap hidden']" >
+
+            <span class="filter-item">
+                <select v-bind:class="{ loading : !regions}"  @change="filterChange('ag_regions','Region',$event)">
+ <option v-if="regions==null" value="0">Regions Loading...</option>
+                    <option v-cloak value="0">Select Region</option>
+                    <option v-for="item in regions" v-bind:value="item.id">
+                        {{ item.name }}
+                    </option>
+                </select>
+            </span>
+              <span class="filter-item">
+                <select v-bind:class="{ loading : !localAuthorities}" @change="filterChange('ag_local_authority','Local Authority',$event)">
+                     <option v-if="localAuthorities==null" value="0">Local Authorities Loading...</option>
+                    <option  v-cloak value="0">Select Local Authority</option>
+                    <option v-for="item in localAuthorities" v-bind:value="item.id" >
+                        {{ item.name }}
+                    </option>
+                </select>
+            </span>
+
+            <span class="filter-item">
+                <select v-bind:class="{ loading : !cities}" @change="filterChange('ag_cities','City',$event)">
+ <option v-if="cities==null" value="0">Cities Loading...</option>
+                    <option v-cloak value="0">Select City</option>
+                    <option v-for="item in cities" v-bind:value="item.id">
+                        {{ item.name }}
+                    </option>
+                </select>
+            </span>
+
+            <span class="filter-item">
+                <select v-bind:class="{ loading : !counties}" @change="filterChange('ag_county','County',$event)">
+                    <option v-if="counties==null" value="0">Counties Loading...</option>
+                    <option v-cloak value="0">Select County</option>
+                    <option v-for="item in counties" v-bind:value="item.id">
+                        {{ item.name }}
+                    </option>
+                </select>
+            </span>
+
+            <span class="filter-item">
+                <select v-bind:class="{ loading : !types}"  @change="filterChange('ag_type_sector','Type/Sector',$event)">
+                     <option v-if="types==null" value="0">Types Loading...</option>
+                    <option  v-cloak value="0">Select Type</option>
+                    <option v-for="item in types" v-bind:value="item.id" >
+                        {{ item.name }}
+                    </option>
+                </select>
+            </span>
+            
+             <span class="filter-item">
+                <select v-bind:class="{ loading : !staffs}" @change="filterChange('ag_staff','Manager',$event)">
+                     <option v-if="staffs==null" value="0">Staffs Loading...</option>
+                    <option  v-cloak value="0">Select Staff</option>
+                    <option v-for="item in staffs" v-bind:value="item.id" >
+                        {{ item.name }}
+                    </option>
+                </select>
+            </span>
+            
+             <span class="filter-item">
+                <select v-bind:class="{ loading : !brands}"  @change="filterChange('ag_brand','Brand',$event)">
+                     <option v-if="brands==null" value="0">Brands Loading...</option>
+                    <option  v-cloak value="0">Select Brand</option>
+                    <option v-for="item in brands" v-bind:value="item.id" >
+                        {{ item.name }}
+                    </option>
+                </select>
+            </span>
+            
+             <span class="filter-item">
+                <select  v-bind:class="{ loading : !inspectionDirectorates}" @change="filterChange('ag_inspection_directorate','Inspection Directorate',$event)">
+                     <option v-if="inspectionDirectorates==null" value="0">Inspection Directorate Loading...</option>
+                    <option  v-cloak value="0">Select Inspection Directorate</option>
+                    <option v-for="item in inspectionDirectorates" v-bind:value="item.id" >
+                        {{ item.name }}
+                    </option>
+                </select>
+            </span>
+            
+             <span class="filter-item">
+                <select v-bind:class="{ loading : !primaryInspectionCats}" @change="filterChange('ag_primary_inspection_cat','Primary Inspection Category',$event)">
+                     <option v-if="primaryInspectionCats==null" value="0">Primary Inspections Loading...</option>
+                    <option  v-cloak value="0">Select Primary Inspection</option>
+                    <option v-for="item in primaryInspectionCats" v-bind:value="item.id" >
+                        {{ item.name }}
+                    </option>
+                </select>
+            </span>
+
+            
+              <span class="filter-item">
+                <select v-bind:class="{ loading : !ownershipTypes}" @change="filterChange('ag_ownership_type','Ownership Type',$event)">
+                     <option v-if="ownershipTypes==null" value="0">Ownership Types Loading...</option>
+                    <option  v-cloak value="0">Select Ownership Type</option>
+                    <option v-for="item in ownershipTypes" v-bind:value="item.id" >
+                        {{ item.name }}
+                    </option>
+                </select>
+            </span>
+            </div>
+           
+            
+        </div>
+
+
+
+    </div>
+
+
+
+
+
+    <div  id="result-area">
+
+        <div v-cloak v-if="loading" id="loading">
+          
+            <i id="api-loader" class="fas fa-circle-notch fa-spin"></i>
+            <span class="loading-text">{{loadingText}}</span>
+        </div>
+
+     <div v-cloak v-if = "responseAvailable == true">
+   <div id="search-results-top-bar">
+                
+                
+                <div id="search-result-title">
+                    <span class="count">{{mytotalCount}}</span> results are available for: <span class="keyword">{{searchQuery}}</span><br>
+                    <div v-if='!isPostcode'>
+                        Showing destinations to: <span class="keyword">{{cityName}}</span> Location Type:<span class="keyword">{{cityType}}</span>
+                    </div>
+                        
+
+                </div>
+
+
+
+                <div id="paginations" v-cloak>
+  <select   @change="changePage($event)">
+ 
+                    
+                    <option v-for="index in parseInt(mytotalPages)"  v-bind:class="[ pageOfItems==index ? 'current'  : '' ]" :value="index" >{{ index }}</option>
+                
+                </select>
+<!--                    <ul>
+
+                        <li v-for="index in parseInt(mytotalPages)"  v-bind:class="[ pageOfItems==index ? 'current'  : '' ]" >
+                            <button   @click="changePage(index)" > {{ index }}</button>
+
+                        </li>
+
+                    </ul>-->
+                </div>
+
+
+            </div>
+         
+          <div id="search-result-active-filters" v-if="searchFilters">
+                  Active Filters:
+                  <ul>
+                      
+                      <li v-for="filter in searchFilters">
+                      <span class="filter-label">{{filter.label}}:</span> <span class="filter-value">{{filter.optionText}}</span>
+                  </li>
+                      
+                  </ul>
+                </div>
+         
+         
+           <ul class="results">
+                <li v-for="(item, index) in result" >
+                    <div class="result-wrap">
+                        <div class="result-image">
+
+                            <img v-if="!item.thumbnail" src="https://www.agespace.org/wp-content/themes/Agespace-Elementor/images/placeholder.jpg"  :alt="item.title" :title="cleaner(item.title)"/>  
+
+                        </div>                
+                        <div class="result-body">
+                            <div class="top-area">
+                            <span  :class=" whiteSpace(item.latest_overall_rating) + ' rate-badge' || 'no-rating rate-badge' ">
+                                {{item.latest_overall_rating || 'No rating'}}
+
+                            </span>
+                            
+                             <span class="badge yellow">
+                                    {{item.service_category[0].name}}
+                                    
+                                </span>
+</div>
+                            <h3 class="result-title"><a target="_blank" :href="item.link">{{ cleaner(item.title) }}</a></h3>
+
+                            <div class="address">
+                                <i class="fa fa-map-marker-alt"></i> {{item.city[0].name ? item.city[0].name  : item.local_authority[0].name }}, {{item.postal_code}} <span class="seperator">|</span>  <i class="fa fa-phone"></i> {{formatPhone(item.location_phone_number)}} 
+                                <span v-if="item.searched_distance_zero>0">
+                                <span class="seperator">|</span> <i class="fa fa-map-location-arrow"></i>  {{item.distance_miles}} Miles Away
+                                </span>
+
+                            </div>
+
+                            <div class="result-footer">
+                                 <span v-if="item.cqc_location" class="badge salmon">
+                                    {{item.cqc_location[0].name}}
+                                    
+                                </span>
+                                  
+                            
+                                <span class="badge green">
+                                    {{item.type_sector[0].name}}
+                                    
+                                </span>
+                                
+                                <div class="date">Registered Date: <b>{{item.hsca_start_date}}</b></div>
+                            </div>
+
+                        </div>    
+                    </div>
+
+
+
+                </li>
+
+            </ul>
+
+            <hr>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,50 @@
+
+<!--
+<div v-cloak class="search-filters">
+
+
+
+
+    <div class="filters-wrap visible" >
+        <span class="filter-item" v-if="responseAvailable" >
+           <select v-model="searchRadius"  @change="radiusChange($event)">
+                       <option  v-cloak value="0">Radius:</option>
+                    <option selected value="25">25 Miles</option>
+                    <option value="50">50 Miles</option>
+                    <option value="100">100 Miles</option>
+                </select>
+        </span>
+
+
+
+    </div>
+
+
+</div>-->
+
+
+<div v-cloak class="search-filters">
+
+
+
+
+    <div class="filters-wrap visible" >
+        <span class="filter-item" v-if="responseAvailable" >
+            <select   @change="radiusChange($event)">
+
+                <option  v-cloak value="0">Radius:</option>
+                   <option selected value="15">15 Miles</option>
+   <option  value="25">25 Miles</option>
+                    <option value="50">50 Miles</option>
+                    <option value="100">100 Miles</option>
+
+            </select>
+        </span>
+
+
+
+    </div>
+
+
+</div>
+

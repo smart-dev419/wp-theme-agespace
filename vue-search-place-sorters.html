@@ -1,0 +1,26 @@
+
+<div v-cloak class="search-filters">
+
+
+
+
+    <div class="filters-wrap visible" >
+        <span class="filter-item" v-if="responseAvailable" >
+            <select @change="sorterChange($event)">
+
+                <option  v-cloak value="0">Sort By:</option>
+
+                <option  v-cloak value="name-asc">Name A-Z</option>
+                <option  v-cloak value="name-desc">Name Z-A</option>
+
+
+            </select>
+        </span>
+
+
+
+    </div>
+
+
+</div>
+

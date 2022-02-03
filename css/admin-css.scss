@@ -1,0 +1,27 @@
+#elementor-preview-iframe{
+  height: 100%!important;
+  min-height: 100%!important;
+}
+
+
+
+.admin-listed-ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    .admin-listed-members{
+  margin-bottom: 5px;
+  &:last-child{
+      margin-bottom: 0;
+  }
+    
+         font-size: 18px;
+   font-weight: 400;
+    
+}
+a{
+    font-size: 12px;
+    margin-left: 10px;
+}
+
+}

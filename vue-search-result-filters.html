@@ -1,0 +1,110 @@
+
+
+
+
+<div  id="preloader-filters" v-if = "filtersAreAvailable == false">
+   
+    <div class="preloader-list-item  filters ph-item animate-inside">
+
+        <div class="p-button"></div>
+        <div class="p-button"></div>
+        <div class="p-button"></div>
+    </div>
+
+</div>
+<div id="above-results-bar">
+   
+     <div class="preloader-list-item  filters ph-item animate-inside" v-if = "responseAvailable != true">
+        <div class="p-title"></div>
+    </div>
+    <div id="search-results-top-bar" v-cloak v-if = "responseAvailable == true">
+
+
+        <div id="search-result-title">
+            <span class="count">{{result.length}}</span> {{serviceTypeName}} Providers within <span class="distance">{{searchRadius}}</span> miles of <span class="keyword">{{keyword == 'place' ? urlParams.get('keyword') : keyword }}</span><br>
+            <div v-if='cityName'>
+                Showing destinations to: <span class="keyword">{{cityName}}</span> Location Type:<span class="keyword">{{cityType}}</span>
+            </div>
+
+
+        </div>
+
+
+
+
+    </div>
+
+
+    <div v-cloak v-if = "filtersAreAvailable==true" id="search-filters-bar" class="search-filters">
+        <div class="filters-wrap">
+
+        
+            
+<!--     
+              <span class="filter-item custom-select checkbox-select">
+              
+                <select  id="specialist_service_select" v-bind:class="{ loading : !filter_specialistServices}"  data-filtertype="specialist_service" data-filterlabel="Specialist Service" @click="initCustomSelect()" @change="filterApply('specialist_service','Specialist Service',$event)">
+                    <option v-if="filter_specialistServices==null" value="0">Specialist Services Loading...</option>
+                    <option  v-cloak value="0">Specialist Service</option>
+                    <option v-for="item in filter_specialistServices" v-bind:value="item.term_id" >
+                        {{ item.name }}
+                    </option>
+                </select>
+               
+            </span>
+
+
+
+
+             <span class="filter-item custom-select">
+             
+                <select id="rate_select" v-bind:class="{ loading : !filter_rate}"  @click="initCustomSelect()" data-filtertype="rate" data-filterlabel="Service Rate"  @change="filterApply('rate','Service Rate',$event)">
+                    <option v-if="filter_rate==null" value="0">CQC Rates Loading...</option>
+                    <option  v-cloak value="0">CQC Rating</option>
+                    <option v-for="item in filter_rate" v-bind:value="item.name" >
+                        {{ item.name }}
+                    </option>
+                </select>
+                    
+            </span>-->
+ <span class="filter-item  custom-select">
+              
+                <select @change="sorterChange($event)">
+
+                <option  v-cloak value="0">Sort By</option>
+
+                <option  v-cloak value="name-asc">Name A-Z</option>
+                <option  v-cloak value="name-desc">Name Z-A</option>
+
+
+            </select>
+
+                    
+            </span>
+
+            <span class="filter-item custom-select">
+              
+                <select   @change="radiusChange($event)">
+
+                <option  v-cloak value="0">Radius</option>
+                   <option selected value="15">15 Miles</option>
+   <option  value="25">25 Miles</option>
+                    <option value="50">50 Miles</option>
+                    <option value="100">100 Miles</option>
+
+            </select>
+                    
+            </span>
+
+
+            
+         
+
+           
+
+        </div>
+   
+    </div>
+
+
+</div>
